@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import "./RecipeGrid.css"
 import { useQuery } from '@tanstack/react-query';
 
