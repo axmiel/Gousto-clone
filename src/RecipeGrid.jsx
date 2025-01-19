@@ -1,16 +1,4 @@
-import "./RecipeGrid.css"
-import { useQuery } from '@tanstack/react-query';
-
-const fetchAllRecipes = async () => {
-  const res = await fetch('https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes/');
-  
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message || `HTTP error, status: ${res.status}`);
-  }
-
-  return res.json();
-};
+import "./RecipeGrid.css";
 
 function RecipeComponent({ recipe }) {
   const prepTime = recipe.prep_time;
@@ -35,28 +23,10 @@ function RecipeComponent({ recipe }) {
   );
 }
 
-function RecipeGrid() {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['apiResponse'],
-    queryFn: fetchAllRecipes,
-  });
-
-  if (isLoading) return (
-    <div className="loading-state">
-      <div className="loader"></div>
-      <p>Loading recipes...</p>
-    </div>
-  );
-  if (isError) return (
-    <div className='error-state'>
-      <h3>Error:</h3>
-      <p>{error.message}</p>
-    </div>
-  );
-
+function RecipeGrid({ recipes }) {
   return (
     <div className="recipes-container">
-      {data.map((recipe) => (
+      {recipes.map((recipe) => (
         <RecipeComponent key={recipe.id} recipe={recipe} />
       ))}
     </div>
