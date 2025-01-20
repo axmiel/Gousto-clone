@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 0 */
+
 import './FiltersList.css';
 
 function RecipeFilter({ filter }) {

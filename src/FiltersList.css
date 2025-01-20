@@ -1,0 +1,11 @@
+.filters-list-container {
+    display: flex;
+    margin: 23px;
+}
+
+.filter-button {
+    margin: 2px;
+    padding: 5px 15px;
+    border-radius: 2px;
+    background-color: hsla(0, 0%, 0%, 0.4);
+}

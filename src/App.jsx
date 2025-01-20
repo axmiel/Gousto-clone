@@ -1,4 +1,3 @@
-import React from 'react';
 import RecipeGrid from './RecipeGrid';
 import FiltersList from './FiltersList.jsx';
 import DynamicSearchBar from './DynamicSearchBar.jsx';
