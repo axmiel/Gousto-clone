@@ -1,7 +1,8 @@
-const recipeUrl = "https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes/";
+const recipesUrl =
+  "https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes/";
 
 export const fetchAllRecipes = async () => {
-  const res = await fetch(recipeUrl);
+  const res = await fetch(recipesUrl);
 
   if (!res.ok) {
     const error = await res.json();

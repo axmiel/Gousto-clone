@@ -16,7 +16,7 @@ function FiltersList() {
   const filtersArr = [...new Set([...categoriesList, ...cuisinesList])];
 
   if (loadingFilters) {
-    const numOfFilterPlaceholders = randomNumberInRange(12, 18);
+    const numOfFilterPlaceholders = randomNumberInRange(12, 16);
     const filterPlaceholders = Array.from(
       { length: numOfFilterPlaceholders },
       (_, i) => (
