@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllRecipes } from "../api/recipe.service";
+import { fetchRecipes } from "../api/recipe.service";
 
-export const useRecipes = () => {
+export const useRecipes = (url) => {
   const queryResponse = useQuery({
-    queryKey: ["apiResponse"],
-    queryFn: fetchAllRecipes,
+    queryKey: ["recipesResponse"],
+    queryFn: () => fetchRecipes(url),
   });
 
   return queryResponse;

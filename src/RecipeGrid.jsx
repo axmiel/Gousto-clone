@@ -4,6 +4,9 @@ import { randomNumberInRange } from "./api/random_number.service";
 import { useRecipes } from "./hooks/useRecipes";
 import "./RecipeGrid.css";
 
+const recipesUrl =
+  "https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes";
+
 function RecipeComponent({ recipe }) {
   const prepTime = recipe.prep_time;
   let displayTime;
@@ -27,7 +30,7 @@ function RecipeComponent({ recipe }) {
 }
 
 function RecipeGrid() {
-  const { data: recipes, isLoading: loadingRecipes } = useRecipes();
+  const { data: recipes, isLoading: loadingRecipes } = useRecipes(recipesUrl);
 
   if (loadingRecipes) {
     const numOfRecipeCardPlaceholders = 12;
