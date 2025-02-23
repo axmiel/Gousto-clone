@@ -3,8 +3,12 @@ const recipesUrl =
 
 
 
-export const fetchRecipes = async (url) => {
-  const res = await fetch(url);
+export const fetchRecipes = async (url, filter) => {
+  const urlWithSearch = new URL(url);
+
+  if (filter) urlWithSearch.searchParams.set('filter', filter);
+  
+  const res = await fetch(urlWithSearch.toString());
 
   if (!res.ok) {
     const error = await res.json();

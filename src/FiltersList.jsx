@@ -1,27 +1,48 @@
-/* eslint react/prop-types: 0 */
-// import { createContext } from "react";
 import "./FiltersList.css";
+import { useState, useEffect, useCallback } from "react";
+import useSearchParams from "./hooks/useSearchParams";
 
-// const recipesUrl = 'https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes'
+const categoriesList = [
+  "pork",
+  "beef",
+  "vegetarian",
+  "vegan",
+  "chicken",
+  "fish",
+  "duck",
+  "lamb",
+];
+const cuisinesList = [
+  "british",
+  "american",
+  "italian",
+  "chinese",
+  "asian",
+  "indian",
+  "korean",
+  "spanish",
+  "mexican",
+];
+const prepTime = "under 30 mins";
+const filtersArr = [
+  prepTime,
+  ...new Set([...categoriesList, ...cuisinesList]),
+];
 
-// TBC
-// function filteredRecipesUrlConstructor(filter = null) {
-//   if (filter === "under 30 mins") {
-//     return "?filters=under30"
-//   } else {
-//     return `?filters=${filter}`
-//   }
-// }
+function filteredRecipesParamConstructor(filter = null) {
+  if (filter === "under 30 mins") {
+    return "under30"
+  } else {
+    return filter
+  }
+}
 
-// let recipeFilterContext;
-
-function RecipeFilter({ filter }) {
+function RecipeFilter({ filter, isSelected, onSelectionChange }) {
   const filterLabel = filter.charAt(0).toUpperCase() + filter.slice(1);
   return (
     <button
-      // TBC
-      // onClick={ (filter) => recipeFilterContext = createContext(filteredRecipesUrlConstructor(filter)) }
-      className="filter-button"
+      onClick={() => onSelectionChange(filteredRecipesParamConstructor(filter))}
+      className={`filter-button${isSelected ? ' selected' : ''}`}
     >
       {filterLabel}
     </button>
@@ -29,37 +50,25 @@ function RecipeFilter({ filter }) {
 }
 
 function FiltersList() {
-  const categoriesList = [
-    "pork",
-    "beef",
-    "vegetarian",
-    "vegan",
-    "chicken",
-    "fish",
-    "duck",
-    "lamb",
-  ];
-  const cuisinesList = [
-    "british",
-    "american",
-    "italian",
-    "chinese",
-    "asian",
-    "indian",
-    "korean",
-    "spanish",
-    "mexican",
-  ];
-  const prepTime = "under 30 mins";
-  const filtersArr = [
-    prepTime,
-    ...new Set([...categoriesList, ...cuisinesList]),
-  ];
+  const [filter, setFilter] = useState([]);
+  const [ params, updateParam ] = useSearchParams();
+
+  useEffect(() => {
+    const filterState = params.get('filter');
+    setFilter(filterState);
+  }, [params]);
+
+  const handleOnFilterSelectionChange = useCallback((selectedFilter) => {
+    setFilter(selectedFilter);
+    updateParam('filter', selectedFilter);
+  }, []);
+
+
 
   return (
     <div className="filters-list-container">
-      {filtersArr.map((filter, index) => (
-        <RecipeFilter key={index} filter={filter} />
+      {filtersArr.map((filterItem, index) => (
+        <RecipeFilter key={index} filter={filterItem} isSelected={filter === filteredRecipesParamConstructor(filterItem)} onSelectionChange={handleOnFilterSelectionChange} />
       ))}
     </div>
   );

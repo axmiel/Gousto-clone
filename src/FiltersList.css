@@ -10,6 +10,10 @@
   background-color: hsla(0, 0%, 0%, 0.4);
 }
 
+.filter-button.selected {
+  background-color: red;
+}
+
 .filter-placeholder {
   height: 21px;
   margin: 2px;
