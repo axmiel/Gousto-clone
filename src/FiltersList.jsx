@@ -55,10 +55,13 @@ function FiltersList() {
     setFilter(filterState);
   }, [params]);
 
-  const handleOnFilterSelectionChange = useCallback((selectedFilter) => {
-    setFilter(selectedFilter);
-    updateParam("filter", selectedFilter);
-  }, []);
+  const handleOnFilterSelectionChange = useCallback(
+    (selectedFilter) => {
+      setFilter(selectedFilter);
+      updateParam("filter", selectedFilter);
+    },
+    [setFilter, updateParam]
+  );
 
   return (
     <div className="filters-list-container">
