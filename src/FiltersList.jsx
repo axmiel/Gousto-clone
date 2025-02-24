@@ -24,16 +24,13 @@ const cuisinesList = [
   "mexican",
 ];
 const prepTime = "under 30 mins";
-const filtersArr = [
-  prepTime,
-  ...new Set([...categoriesList, ...cuisinesList]),
-];
+const filtersArr = [prepTime, ...new Set([...categoriesList, ...cuisinesList])];
 
 function filteredRecipesParamConstructor(filter = null) {
   if (filter === "under 30 mins") {
-    return "under30"
+    return "under30";
   } else {
-    return filter
+    return filter;
   }
 }
 
@@ -42,7 +39,7 @@ function RecipeFilter({ filter, isSelected, onSelectionChange }) {
   return (
     <button
       onClick={() => onSelectionChange(filteredRecipesParamConstructor(filter))}
-      className={`filter-button${isSelected ? ' selected' : ''}`}
+      className={`filter-button${isSelected ? " selected" : ""}`}
     >
       {filterLabel}
     </button>
@@ -51,24 +48,27 @@ function RecipeFilter({ filter, isSelected, onSelectionChange }) {
 
 function FiltersList() {
   const [filter, setFilter] = useState([]);
-  const [ params, updateParam ] = useSearchParams();
+  const [params, updateParam] = useSearchParams();
 
   useEffect(() => {
-    const filterState = params.get('filter');
+    const filterState = params.get("filter");
     setFilter(filterState);
   }, [params]);
 
   const handleOnFilterSelectionChange = useCallback((selectedFilter) => {
     setFilter(selectedFilter);
-    updateParam('filter', selectedFilter);
+    updateParam("filter", selectedFilter);
   }, []);
-
-
 
   return (
     <div className="filters-list-container">
       {filtersArr.map((filterItem, index) => (
-        <RecipeFilter key={index} filter={filterItem} isSelected={filter === filteredRecipesParamConstructor(filterItem)} onSelectionChange={handleOnFilterSelectionChange} />
+        <RecipeFilter
+          key={index}
+          filter={filterItem}
+          isSelected={filter === filteredRecipesParamConstructor(filterItem)}
+          onSelectionChange={handleOnFilterSelectionChange}
+        />
       ))}
     </div>
   );
