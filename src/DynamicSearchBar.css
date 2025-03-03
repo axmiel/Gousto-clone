@@ -1,46 +1,63 @@
 .dynamic-search-bar {
-    margin: 25px;
-    display: flex;
+  margin: 25px;
+  display: flex;
+}
+
+.dynamic-search-bar:focus {
+  border: solid 1px black;
+  outline: none;
 }
 
 .gg-search {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    transform: scale(var(--ggs, 1));
-    width: 16px;
-    height: 16px;
-    border: 2px solid;
-    border-radius: 100%;
-    margin-left: -4px;
-    margin-top: -4px;
-    translate: 28px 16px;
-  }
-  .gg-search::after {
-    content: "";
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    border-radius: 3px;
-    width: 2px;
-    height: 8px;
-    background: currentColor;
-    transform: rotate(-45deg);
-    top: 10px;
-    left: 12px;
-  }
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs, 1));
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 100%;
+  margin-left: -4px;
+  margin-top: -4px;
+  translate: 28px 16px;
+}
+.gg-search::after {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  border-radius: 3px;
+  width: 2px;
+  height: 8px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  top: 10px;
+  left: 12px;
+}
 
-  .dynamic-search-bar input {
-    padding: 0px 25px 0px 50px;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    width: 600px;
-    height: 40px;
-    border-radius: 10px;
-    border: solid 1px black;
-    font-size: 16px;
-  }
+.dynamic-search-bar input {
+  padding: 0px 25px 0px 50px;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  width: 600px;
+  height: 40px;
+  border-radius: 10px;
+  border: solid 1px black;
+  font-size: 16px;
+}
 
-  .dynamic-search-bar input:focus {
-    border: solid 1px black;
-    outline: none;
+.dynamic-search-bar input:focus {
+  outline: none;
+  animation: dynamic-search-active 200ms linear forwards;
+  -webkit-animation: dynamic-search-active 200ms linear forwards;
+}
+
+@keyframes dynamic-search-active {
+  0% {
+    border-color: hsla(200, 100%, 60%, 0);
+    box-shadow: 0px 0px 0px 0px #535bf2;
   }
+  100% {
+    border-color: hsla(200, 100%, 60%, 1);
+    box-shadow: 0px 0px 3px 2px #535bf2;
+  }
+}
