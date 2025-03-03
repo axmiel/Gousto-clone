@@ -57,8 +57,12 @@ function FiltersList() {
 
   const handleOnFilterSelectionChange = useCallback(
     (selectedFilter) => {
-      setFilter(selectedFilter);
-      updateParam("filter", selectedFilter);
+      if (window.location.search === `?filter=${selectedFilter}`) {
+        updateParam("filter", null);
+      } else {
+        setFilter(selectedFilter);
+        updateParam("filter", selectedFilter);
+      }
     },
     [setFilter, updateParam]
   );
