@@ -5,7 +5,7 @@ import "./DynamicSearchBar.css";
 function DynamicSearchBar() {
   return (
     <div className="dynamic-search-bar">
-      <div className="gg-search"></div>
+      <div className="dynamic-search"></div>
       <input
         type="text"
         autoComplete="off"
