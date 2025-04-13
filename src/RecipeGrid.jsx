@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 
-import { randomNumberInRange } from "./api/random_number.service";
+import { randomNumberInRange } from "./utils/random_number";
 import { useRecipes } from "./hooks/useRecipes";
 import "./RecipeGrid.css";
 

@@ -55,16 +55,15 @@ function FiltersList() {
     setFilter(filterState);
   }, [params]);
 
-  console.log(params);
-
   const handleOnFilterSelectionChange = useCallback(
     (selectedFilter) => {
-      if (window.location.search === `?filter=${selectedFilter}`) {
+      if (window.location.search.includes(`filter=${selectedFilter}`)) {
         updateParam("filter", null);
       } else {
         setFilter(selectedFilter);
         updateParam("filter", selectedFilter);
       }
+      console.log(window.location.search)
     },
     [setFilter, updateParam]
   );
