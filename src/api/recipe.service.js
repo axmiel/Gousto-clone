@@ -1,5 +1,5 @@
 const recipesUrl =
-  "https://6774130577a26d4701c72ab8.mockapi.io/api/v1/recipes";
+  "http://g0kg8os8sg8so4sks4k080g0.49.12.204.98.sslip.io/api/v1/recipes";
 
 export const fetchRecipes = async (url, filter, search) => {
   const urlWithSearch = new URL(url);
