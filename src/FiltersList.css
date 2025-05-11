@@ -22,38 +22,10 @@
   }
   100% {
     border-color: hsla(200, 100%, 60%, 1);
-    box-shadow: 0px 0px 3px 2px #535bf2;
+    box-shadow: 0px 0px 1px 1px #535bf2;
   }
   0% {
     border-color: hsla(200, 100%, 60%, 0);
     box-shadow: 0px 0px 0px 0px #535bf2;
-  }
-}
-
-.filter-placeholder {
-  height: 21px;
-  margin: 2px;
-  padding: 5px 15px;
-  border-radius: 2px;
-  background-image: linear-gradient(
-    to right,
-    hsl(0, 0%, 20%),
-    hsl(0, 0%, 20%),
-    hsl(0, 0%, 20%),
-    hsl(0, 0%, 40%),
-    hsl(0, 0%, 20%),
-    hsl(0, 0%, 20%),
-    hsl(0, 0%, 20%)
-  );
-  background-size: 200% 100%;
-  animation: button-loader 3s infinite linear;
-}
-
-@keyframes button-loader {
-  0% {
-    background-position: 250% 0%;
-  }
-  100% {
-    background-position: -250% 0%;
   }
 }

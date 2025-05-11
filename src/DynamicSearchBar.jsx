@@ -6,21 +6,21 @@ import useSearchParams from "./hooks/useSearchParams";
 import { debounce } from "./utils/debounce";
 
 function DynamicSearchBar() {
-  const [filter, setFilter] = useState('');
+  const [searchValue, setSearchValue] = useState('');
   const [params, updateParam] = useSearchParams();
 
   useEffect(() => {
-    const filterState = params.get("search");
-    setFilter(filterState);
+    const searchState = params.get("search");
+    setSearchValue(searchState);
   }, [params]);
 
-  const handleOnFilterSelectionChange = useCallback(
+  const handleSearch = useCallback(
     debounce((event) => {
         const lowercaseInputValue = event.target.value.toLowerCase();
-        setFilter(lowercaseInputValue);
+        setSearchValue(lowercaseInputValue);
         updateParam("search", lowercaseInputValue || null);
     }),
-    [setFilter, updateParam]
+    [setSearchValue, updateParam]
   );
 
   return (
@@ -30,8 +30,8 @@ function DynamicSearchBar() {
         type="search"
         autoComplete="off"
         placeholder="Search recipes"
-        defaultValue={filter}
-        onChange={handleOnFilterSelectionChange}
+        defaultValue={searchValue}
+        onChange={handleSearch}
       ></input>
     </div>
   );

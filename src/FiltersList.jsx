@@ -23,22 +23,28 @@ const cuisinesList = [
   "spanish",
   "mexican",
 ];
-const prepTime = "under 30 mins";
-const filtersArr = [prepTime, ...new Set([...categoriesList, ...cuisinesList])];
+const prepTime = ["under 15 mins", "under 30 mins"];
 
-function filteredRecipesParamConstructor(filter = null) {
-  if (filter === "under 30 mins") {
-    return "under30";
+const filtersArr = [
+  ...prepTime.map((prepTime) => ({ value: prepTime, type: "prep_time" })),
+  ...categoriesList.map((category) => ({ value: category, type: "category" })),
+  ...cuisinesList.map((cuisine) => ({ value: cuisine, type: "cuisine" })),
+];
+
+function filteredRecipesParamConstructor(filter, filterType) {
+  if (filterType === "prep_time") {
+    const minutes = parseInt(filter.match(/\d+/)[0]);
+    return minutes;
   } else {
     return filter;
   }
 }
 
-function RecipeFilter({ filter, isSelected, onSelectionChange }) {
+function RecipeFilter({ filter, filterType, isSelected, onSelectionChange }) {
   const filterLabel = filter.charAt(0).toUpperCase() + filter.slice(1);
   return (
     <button
-      onClick={() => onSelectionChange(filteredRecipesParamConstructor(filter))}
+      onClick={() => onSelectionChange(filterType, filter)}
       className={`filter-button${isSelected ? " selected" : ""}`}
     >
       {filterLabel}
@@ -47,37 +53,73 @@ function RecipeFilter({ filter, isSelected, onSelectionChange }) {
 }
 
 function FiltersList() {
-  const [filter, setFilter] = useState([]);
+  const [prepTime, setPrepTime] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [cuisine, setCuisine] = useState(null);
   const [params, updateParam] = useSearchParams();
 
   useEffect(() => {
-    const filterState = params.get("filter");
-    setFilter(filterState);
+    setCategory(params.get("category") || null);
+    setCuisine(params.get("cuisine") || null);
+    setPrepTime(params.get("prep_time") || null);
   }, [params]);
 
   const handleOnFilterSelectionChange = useCallback(
-    (selectedFilter) => {
-      if (window.location.search.includes(`filter=${selectedFilter}`)) {
-        updateParam("filter", null);
+    (filterType, selectedFilter) => {
+      if (filterType === "category") {
+        if (window.location.search.includes(`category=${selectedFilter}`)) {
+            updateParam("category", null);
+          } else {
+            setCategory(selectedFilter);
+            updateParam("category", selectedFilter);
+          }
+      } else if (filterType === "cuisine") {
+        if (window.location.search.includes(`cuisine=${selectedFilter}`)) {
+          updateParam("cuisine", null);
+        } else {
+          setCuisine(selectedFilter);
+          updateParam("cuisine", selectedFilter);
+        }
       } else {
-        setFilter(selectedFilter);
-        updateParam("filter", selectedFilter);
+        if (window.location.search.includes(`prep_time=${filteredRecipesParamConstructor(selectedFilter, filterType)}`)) {
+            updateParam("prep_time", null);
+          } else {
+            setPrepTime(filteredRecipesParamConstructor(selectedFilter, filterType));
+            updateParam("prep_time", filteredRecipesParamConstructor(selectedFilter, filterType));
+          }
       }
-      console.log(window.location.search)
     },
-    [setFilter, updateParam]
+    [setCategory, setCuisine, setPrepTime, updateParam]
   );
 
   return (
     <div className="filters-list-container">
-      {filtersArr.map((filterItem, index) => (
-        <RecipeFilter
-          key={index}
-          filter={filterItem}
-          isSelected={filter === filteredRecipesParamConstructor(filterItem)}
-          onSelectionChange={handleOnFilterSelectionChange}
-        />
-      ))}
+      {filtersArr.map((filterItem, index) => {
+        let isSelected = false;
+        switch (filterItem.type) {
+          case "category":
+            isSelected = category === filterItem.value;
+            break;
+          case "cuisine":
+            isSelected = cuisine === filterItem.value;
+            break;
+          case "prep_time":
+            isSelected = prepTime === filteredRecipesParamConstructor(filterItem.value, filterItem.type).toString();
+            break;
+          default:
+            isSelected = false;
+        }
+
+        return (
+          <RecipeFilter
+            key={index}
+            filter={filterItem.value}
+            filterType={filterItem.type}
+            isSelected={isSelected}
+            onSelectionChange={handleOnFilterSelectionChange}
+          />
+        );
+      })}
     </div>
   );
 }

@@ -4,13 +4,14 @@ import useSearchParams from "./useSearchParams";
 
 export const useRecipes = (url) => {
   const [params] = useSearchParams();
-  const filter = params.get('filter');
+  const prepTime = params.get('prep_time')
+  const category = params.get('category');
+  const cuisine = params.get('cuisine');
   const search = params.get('search');
 
   const queryResponse = useQuery({
-    queryKey: ["recipesResponse", filter, search],
-    queryFn: ({queryKey}) => fetchRecipes(url, filter, search),
+    queryKey: ["recipesResponse", prepTime, category, cuisine, search],
+    queryFn: ({queryKey}) => fetchRecipes(url, prepTime, category, cuisine, search),
   })
-
   return queryResponse;
 };

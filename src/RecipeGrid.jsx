@@ -51,7 +51,7 @@ function RecipeGrid() {
   return (
     <div className="recipes-container">
       {recipes?.map((recipe) => (
-        <RecipeComponent key={recipe.id} recipe={recipe} />
+        <RecipeComponent key={recipe._id} recipe={recipe} />
       ))}
     </div>
   );
