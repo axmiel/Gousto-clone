@@ -2,12 +2,32 @@
 
 import { randomNumberInRange } from "./utils/random_number";
 import { useRecipes } from "./hooks/useRecipes";
+import { fetchSavedRecipes, postSavedRecipe, removeSavedRecipe } from "./api/save_recipe.service";
 import "./RecipeGrid.css";
 
 const recipesUrl =
   "http://g0kg8os8sg8so4sks4k080g0.49.12.204.98.sslip.io/api/v1/recipes";
 
 function RecipeComponent({ recipe }) {
+
+  const handleAddClick = async () => {
+    try {
+      await postSavedRecipe(recipe._id)
+      console.log(`recipe ${recipe.name} saved successfully!`)
+    } catch (error) {
+      console.error(`recipe ${recipe.name} failed POST:`, error)
+    }
+  }
+
+  const handleRemoveClick = async () => {
+    try {
+      await removeSavedRecipe(recipe._id)
+      console.log(`recipe ${recipe.name} removed successfully!`)
+    } catch (error) {
+      console.log(`recipe ${recipe.name} failed DELETE:`, error)
+    }
+  }
+
   const prepTime = recipe.prep_time;
   let displayTime;
 
@@ -22,7 +42,7 @@ function RecipeComponent({ recipe }) {
   return (
     <div className="recipe-card">
       <img src={recipe.image} alt={recipe.name} />
-      <button>Add</button>
+      <button onClick={handleAddClick}>Add</button>
       <p className="prep-time">{displayTime}</p>
       <h3>{recipe.name}</h3>
     </div>
@@ -30,7 +50,10 @@ function RecipeComponent({ recipe }) {
 }
 
 function RecipeGrid() {
-  const { data: recipes, isLoading: loadingRecipes } = useRecipes(recipesUrl);
+
+  const { 
+    data: recipes, 
+    isLoading: loadingRecipes } = useRecipes(recipesUrl);
 
   if (loadingRecipes) {
     const numOfRecipeCardPlaceholders = 12;
